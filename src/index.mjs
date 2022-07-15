@@ -1,3 +1,4 @@
+import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
 import { prisma } from './db.mjs'
@@ -5,6 +6,8 @@ import { prisma } from './db.mjs'
 const app = express()
 const port = process.env.PORT || 4000
 const host = process.env.HOST || '0.0.0.0'
+
+app.use(cors())
 
 app.get('/api/products', async (req, res) => {
   const products = await prisma.product.findMany()
