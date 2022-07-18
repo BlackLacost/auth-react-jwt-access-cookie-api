@@ -16,3 +16,9 @@ await prisma.product.createMany({
   skipDuplicates: true,
 })
 console.log('Create random products')
+
+await prisma.user.deleteMany()
+console.log('Delete all users')
+
+await prisma.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART 1`
+console.log('Reset user auto increment to 1')

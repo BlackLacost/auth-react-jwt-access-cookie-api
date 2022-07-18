@@ -6,6 +6,11 @@ postgres_name = ${site_name}-db
 create:
 	heroku create ${site_name} --region eu
 
+env:
+	heroku config:set JWT_SECRET=super_secret_123
+	heroku config:set JWT_EXPIRE=1h
+	heroku config:set CLIENT_URL=https://auth-react-jwt-access-cookie.vercel.app
+
 pg:
 	heroku addons:create heroku-postgresql:hobby-dev --name=${postgres_name}
 
@@ -21,7 +26,7 @@ github:
 open:
 	heroku open
 
-deploy: create pg push pipeline github open
+deploy: create env pg push pipeline github open
 
 destroy:
 	heroku destroy ${site_name} --confirm=${site_name}

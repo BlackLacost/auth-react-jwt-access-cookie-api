@@ -1,4 +1,31 @@
 @baseUrl=http://localhost:4000/api
 
-###
+### Get all products
 GET {{baseUrl}}/products
+
+
+### Signup new user
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+	"email": "test1@mail.ru",
+	"name": "Ilya",
+	"password": "qwe"
+}
+
+
+### Signin user
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+	"email": "test1@mail.ru",
+	"password": "qwe"
+}
+
+### Signout user
+DELETE  {{baseUrl}}/auth/signout
+
+### Check me
+GET {{baseUrl}}/auth/me
