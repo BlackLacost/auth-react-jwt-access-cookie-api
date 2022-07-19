@@ -23,7 +23,7 @@ app.get('/api/products', async (req, res) => {
 })
 
 app.post('/api/auth/signup', requireSignout, async (req, res) => {
-  const { email, name, password } = req.body
+  const { email, name, role, password } = req.body
 
   const existingUser = await prisma.user.findUnique({ where: { email } })
   if (existingUser)
@@ -34,13 +34,14 @@ app.post('/api/auth/signup', requireSignout, async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 12)
 
   const newUser = await prisma.user.create({
-    data: { email, name, password: hashedPassword },
+    data: { email, name, password: hashedPassword, role },
   })
 
   const token = createToken({
     sub: newUser.id,
     email: newUser.email,
     name: newUser.name,
+    role: newUser.role,
   })
   res.cookie('token', token, { httpOnly: true })
   res.json({
@@ -66,6 +67,7 @@ app.post('/api/auth/signin', requireSignout, async (req, res) => {
     sub: existingUser.id,
     email: existingUser.email,
     name: existingUser.name,
+    role: existingUser.role,
   })
   res.cookie('token', token, { httpOnly: true })
   res.json({
